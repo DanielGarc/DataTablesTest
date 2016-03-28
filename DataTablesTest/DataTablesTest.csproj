@@ -110,6 +110,8 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="GetDevicesGHandler.ashx" />
+    <Content Include="GetIOLogForDeviceHandler.ashx" />
+    <None Include="Properties\PublishProfiles\datatablestest.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -313,8 +315,12 @@
     <Compile Include="DataTable.aspx.designer.cs">
       <DependentUpon>DataTable.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DeviceLog.cs" />
     <Compile Include="GetDevicesGHandler.ashx.cs">
       <DependentUpon>GetDevicesGHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="GetIOLogForDeviceHandler.ashx.cs">
+      <DependentUpon>GetIOLogForDeviceHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="IODevices.cs" />
     <Compile Include="IOLogDataService.asmx.cs">
@@ -323,7 +329,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

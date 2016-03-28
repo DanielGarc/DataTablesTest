@@ -58,13 +58,15 @@
                   { 'data': 'TotalizerIncrement' },
                   { 'data': 'Panel' }                 
                 ],
+                lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
                 paging:true,
                 stateSave: true,
-                scrollY: "30vh",
+                scrollY: "50vh",
                 scrollX: true,              
                 processing: true,                
                 bServerSide: true,
-                sAjaxSource: 'GetDevicesGHandler.ashx'              
+                sAjaxSource: 'GetDevicesGHandler.ashx',
+             
             
                 
             });
@@ -88,10 +90,22 @@
 
                   
                         //need to add custom table data from sql and everything else
-                    $('#subDatatable' + row.index()).DataTable({                        
+                    $('#subDatatable' + row.index()).DataTable({
+                        columns: [                  
+                          { 'data': 'UserName' },                     
+                          { 'data': 'State' },
+                          { 'data': 'Description' },
+                          { 'data': 'Notes' },
+                          { 'data': 'TimeStamp' },                         
+                        ],
                         bServerSide: true,
-                        sAjaxSource: 'IOLogDataService.asmx/GetIOLogForDevice',
-                        sServerMethod: 'post'
+                        sAjaxSource: 'GetIOLogForDeviceHandler.ashx',
+                        fnServerParams: function (aoData) {
+                            aoData.push({ "name": "selectedValue", "value": row.data().Proleit_Name });
+                        }
+
+
+
                     });
 
                     //var obj = {};
