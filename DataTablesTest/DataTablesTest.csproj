@@ -94,10 +94,16 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\IOLogInsertService.asmx" />
+    <Content Include="Content\QueryBuilder\query-builder.dark.css" />
+    <Content Include="Content\QueryBuilder\query-builder.dark.min.css" />
+    <Content Include="Content\QueryBuilder\query-builder.default.css" />
+    <Content Include="Content\QueryBuilder\query-builder.default.min.css" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="QueryBuilder.aspx" />
     <Content Include="scripts\jquery-2.2.1.min.map" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
@@ -305,9 +311,23 @@
     <Content Include="scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="scripts\jquery-2.2.1.js" />
     <Content Include="scripts\jquery-2.2.1.min.js" />
+    <Content Include="scripts\QueryBuilder\doT.js" />
+    <Content Include="scripts\QueryBuilder\jQuery.extendext.js" />
+    <Content Include="scripts\QueryBuilder\lexer.js" />
+    <Content Include="scripts\QueryBuilder\nodes.js" />
+    <Content Include="scripts\QueryBuilder\parser.js" />
+    <Content Include="scripts\QueryBuilder\query-builder.js" />
+    <Content Include="scripts\QueryBuilder\query-builder.min.js" />
+    <Content Include="scripts\QueryBuilder\query-builder.standalone.js" />
+    <Content Include="scripts\QueryBuilder\query-builder.standalone.min.js" />
+    <Content Include="scripts\QueryBuilder\sql_parser.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Content\IOLogInsertService.asmx.cs">
+      <DependentUpon>IOLogInsertService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DataTable.aspx.cs">
       <DependentUpon>DataTable.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -328,6 +348,13 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryBuilder.aspx.cs">
+      <DependentUpon>QueryBuilder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="QueryBuilder.aspx.designer.cs">
+      <DependentUpon>QueryBuilder.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -343,7 +370,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52468</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
