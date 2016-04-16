@@ -52,6 +52,7 @@
     </style>
     <link rel="stylesheet" type="text/css" href="Content/DataTables/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="Content/bootstrap.css" />
+   
     <script src="scripts/jquery-2.2.1.js"></script>
     <script src="scripts/DataTables/jquery.dataTables.js"></script>
     <script src="scripts/bootstrap.js"></script>
@@ -271,15 +272,24 @@
             });
 
 
-            var jsonStates = {
-                'PB563_MCC1370': 'PB563_MCC1370',
-                'PB56205_2.08_8.10m': 'PB56205_2.08_8.10m',
-                'PB562_MCC1360': 'PB562_MCC1360'
-            };
-                       
-            $.each(jsonStates, function (i, value) {
-                $('#slctStates').append($('<option>').text(value).attr('value', value));
-            });
+            $.ajax({
+                type:'POST',
+                url: 'IOLogDataService.asmx/GetStates',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json", // dataType is json format
+                success: function (data) {
+                    $.each(data.d, function (index, element) {
+                        var state_Name = element.state_Name;
+                        var state_Description = element.state_Description;
+                        var newOption = '<option data-toggle="tooltip" title="' + state_Description + '">' + state_Name + '</option>';
+                        $('#slctStates').append(newOption);
+                        
+                                                   
+                                             
+                    });
+                 
+                }
+            });      
 
         });
 
@@ -306,9 +316,9 @@
             </div>
         </div>
 
-        <div class="well well-lg">
+        <div class="container well well-lg">
 
-            <table id="Datatable" class="display nowrap" width="100%">
+            <table id="Datatable" class="display nowrap">
                 <thead>
                     <tr>
                         <th></th>
@@ -349,6 +359,7 @@
                                     <div class="col-sm-6">
                                         <div class="col-padding">
                                             <select id="slctStates" class="form-control">
+                                               
                                             </select>
                                             <label for="comment">Comment:</label>
                                             <textarea class="form-control space10bot" rows="5" id="comment"></textarea>

@@ -324,6 +324,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\States.cs" />
     <Compile Include="Content\IOLogInsertService.asmx.cs">
       <DependentUpon>IOLogInsertService.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -335,14 +336,14 @@
     <Compile Include="DataTable.aspx.designer.cs">
       <DependentUpon>DataTable.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DeviceLog.cs" />
+    <Compile Include="Classes\DeviceLog.cs" />
     <Compile Include="GetDevicesGHandler.ashx.cs">
       <DependentUpon>GetDevicesGHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="GetIOLogForDeviceHandler.ashx.cs">
       <DependentUpon>GetIOLogForDeviceHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="IODevices.cs" />
+    <Compile Include="Classes\IODevices.cs" />
     <Compile Include="IOLogDataService.asmx.cs">
       <DependentUpon>IOLogDataService.asmx</DependentUpon>
       <SubType>Component</SubType>

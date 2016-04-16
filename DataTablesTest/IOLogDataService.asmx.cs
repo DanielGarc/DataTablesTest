@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.Services;
+using DataTablesTest.Classes;
 
 namespace DataTablesTest
 {
@@ -27,8 +28,42 @@ namespace DataTablesTest
             //return string.Format("Name: {0}{2}Age: {1}", name, age, Environment.NewLine);
         }
 
-    
+        [WebMethod]        
+        public List<States> GetStates()
+        {
+            //Create an object to store the states returns
+            List<States> states = new List<States>();
+
+            string cs = ConfigurationManager.ConnectionStrings["SSM6911CS"].ConnectionString;
+
+            using(SqlConnection con = new SqlConnection(cs))
+            {
+                SqlCommand cmd = new SqlCommand("GetStates", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    States state = new States();
+                    state.state_nKey = Int32.Parse(reader[0].ToString());
+                    state.state_Name = reader[1].ToString();
+                    state.state_Description = reader[2].ToString();
+                    states.Add(state);
+                }
+
+                con.Close();      
+                
+            }
+
+            return states;
+
+        }
+
 
     }
+
+   
+
 }
 
