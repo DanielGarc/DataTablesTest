@@ -11,5 +11,6 @@ namespace DataTablesTest.Classes
         public int state_nKey { get; set; }
         public string state_Name { get; set; }
         public string state_Description { get; set; }
+        public string Panel { get; set; }
     }
 }

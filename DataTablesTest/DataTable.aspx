@@ -1,32 +1,33 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DataTable.aspx.cs" Inherits="DataTablesTest.DataTable" %>
+﻿<%@ Page MasterPageFile="~/Main.Master" Language="C#" AutoEventWireup="true" CodeBehind="DataTable.aspx.cs" Inherits="DataTablesTest.DataTable" %>
 
-<!DOCTYPE html>
+<asp:Content ID="BodyContent" ContentPlaceHolderID="main_area"  runat="server">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <style type="text/css">       
-         td.details-control{
+    <style type="text/css">
+        td.details-control {
             background: url('../Content/DataTables/images/details_open.png') no-repeat center center;
             cursor: pointer;
         }
-         tr.shown td.details-control{
-             background: url('../Content/DataTables/images/details_close.png') no-repeat center center;
-         }
 
-         .delete-item:hover{
-             cursor:pointer;
-             color:red;
-         }
-         .space10bot{
-             margin-bottom:10px;
-         }
+        tr.shown td.details-control {
+            background: url('../Content/DataTables/images/details_close.png') no-repeat center center;
+        }
+
+        .delete-item:hover {
+            cursor: pointer;
+            color: red;
+        }
+
+        .space10bot {
+            margin-bottom: 10px;
+        }
+
         .navbar .divider-vertical {
             height: 40px;
             margin: 0 9px;
             border-left: 1px solid #f2f2f2;
             border-right: 1px solid #ffffff;
         }
+
         @media ( min-width: 768px ) {
             .grid-divider {
                 position: relative;
@@ -50,19 +51,32 @@
             }
         }
     </style>
-    <link rel="stylesheet" type="text/css" href="Content/DataTables/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" href="Content/bootstrap.css" />
-   
+
+    <link href="Content/bootstrap.css" rel="stylesheet" />
     <script src="scripts/jquery-2.2.1.js"></script>
+
+    <%--Query Builder Scripts/css--%>
+    <script src="scripts/QueryBuilder/jQuery.extendext.js"></script>
+    <script src="scripts/QueryBuilder/doT.js"></script>
+    <script src="scripts/QueryBuilder/query-builder.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="scripts/bootstrap.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <link href="Content/QueryBuilder/query-builder.default.css" rel="stylesheet" />
+
+
+    <%--Datatable Scripts/css--%>
     <script src="scripts/DataTables/jquery.dataTables.js"></script>
     <script src="scripts/bootstrap.js"></script>
     <link href="Content/DataTables/css/select.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="Content/DataTables/css/jquery.dataTables.min.css" />
+
     <script type="text/javascript">
 
         /* Formatting function for row details - modify as you need */
-        function format(rowinfo,id) {
-       
-            return '<div class="panel container">'+
+        function format(rowinfo, id) {
+
+            return '<div class="panel container">' +
             '<table id="subDatatable' + id + '" class="display">' +
                 '<thead>' +
                     '<tr>' +
@@ -72,13 +86,152 @@
                     '<th>Notes</th>' +
                     '<th>TimeStamp</th>' +
                     '</tr>' +
-                '</thead>' +               
+                '</thead>' +
             '</table>' +
                 '<div/>'
             ;
         }
 
+        function CreateQueryBuilder(statesArray, panelArray) {
+
+            //Query Builder
+            $('#builder').queryBuilder({
+                plugins: ['bt-tooltip-errors'],
+
+                filters: [{
+                    id: 'ProL_Name',
+                    label: 'Proleit Name',
+                    type: 'string'
+                }, {
+                    id: 'Description',
+                    label: 'Description',
+                    type: 'string',
+
+                }, {
+                    id: 'Address',
+                    label: 'Address',
+                    type: 'string'
+                }, {
+                    id: 'Units',
+                    label: 'Units',
+                    type: 'string',
+                    input: 'select',
+                    values: {
+                        'um': 'um',
+                        'mBarG': 'mBarG',
+                        'kg/h': 'kg/h',
+                        'kg/hr': 'kg/hr',
+                        'T/F': 'T/F',
+                        'bar': 'bar',
+                        'RPM': 'RPM',
+                        'A-C': 'A-C',
+                        'kg/(m^3)': 'kg/(m^3)',
+                        'uS/cm': 'uS/cm',
+                        'cm': 'cm',
+                        'FTU': 'FTU',
+                        'Off/On': 'Off/On',
+                        'NULL': 'NULL',
+                        'mBar': 'mBar',
+                        '%': '%',
+                        'mm/s': 'mm/s',
+                        'mBarA': 'mBarA',
+                        '(m^3)/h': '(m^3)/h',
+                        'C': 'C',
+                        'A-O': 'A-O',
+                        'BarA': 'BarA',
+                        'm': 'm',
+                        'A-A': 'A-A'
+                    }
+
+                }, {
+                    id: 'Scale_4ma',
+                    label: 'Scale 4ma',
+                    type: 'integer'
+                }, {
+                    id: 'Scale_20ma',
+                    label: 'Scale 20ma',
+                    type: 'integer'
+                }, {
+                    id: 'TotalizerIncrement',
+                    label: 'Totalizer Increment',
+                    type: 'integer'
+                }, {
+                    id: 'State',
+                    label: 'State',
+                    type: 'string',
+                    input: 'select',
+                    values: statesArray
+                }, {
+                    id: 'Panel',
+                    label: 'Panel',
+                    type: 'string',
+                    input: 'select',
+                    values: panelArray
+                }
+
+
+
+                ],
+
+                rules: ''
+            });
+        }
+
         $(document).ready(function () {
+
+            //Store the states loaded from the d
+            //
+
+            //Get States and populate  select state options
+            $.ajax({
+                type: 'POST',
+                url: 'IOLogDataService.asmx/GetStates',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json", // dataType is json format
+                success: function (data) {
+                    //convert the returned data to json
+                    result = jQuery.parseJSON(data.d);
+
+                    //create the array and save the state name when looping throu the json object
+                    var statesArray = new Array();
+
+                    $.each(result.states, function (index, element) {
+
+                        var state_Name = element.state_Name;
+                        var state_Description = element.state_Description;
+                        var state_nkey = element.state_nKey;
+
+                        //populate the states array to build the querybuilder
+                        statesArray.push(state_Name);
+
+                        //create the option
+                        var newOption = '<option data-toggle="tooltip" title="' + state_Description + '" value="' + state_nkey + '">' + state_Name + '</option>';
+                        //append the new option to the select box
+                        $('#slctStates').append(newOption);
+
+                    });
+
+
+
+                    var panelArray = $.map(result.panels, function (el) { return el; }); //convert the panels to javascript array
+                    CreateQueryBuilder(statesArray, panelArray); //Create the Query Builder      
+
+                }
+            });
+
+            $('#btn-reset').on('click', function () {
+                $('#builder').queryBuilder('reset');
+            });
+
+            $('#btn-get-sql').on('click', function () {
+                var result = $('#builder').queryBuilder('getSQL', false, false);
+
+                if (result.sql.length) {
+                    alert(result.sql + JSON.stringify(result.params, null, 2));
+                    console.log(JSON.stringify(result, null, 2));
+                }
+            });
+
 
             //create main table
             $('#Datatable').DataTable({
@@ -96,7 +249,7 @@
                       'orderable': false,
                       'data': null,
                       'defaultContent': '',
-                      'width':"5px"
+                      'width': "5px"
                   },
                   { 'data': 'Proleit_Name' },
                   { 'data': 'Description' },
@@ -135,15 +288,15 @@
                     //this row is already open - close it
                     row.child.hide();
                     tr.removeClass('shown');
-                  
+
                 }
                 else {
                     //open this row                    
                     row.child(format(row.data(), row.index())).show();
                     tr.addClass('shown');
                     //alert(row.data().Proleit_Name);
-                  
-                  
+
+
                     //need to add custom table data from sql and everything else
                     $('#subDatatable' + row.index()).DataTable({
                         columns: [
@@ -176,6 +329,7 @@
                         bServerSide: true,
                         bFilter: false,
                         paging: false,
+                        selected: true,
                         sAjaxSource: 'GetIOLogForDeviceHandler.ashx',
                         fnServerParams: function (aoData) {
                             aoData.push({ "name": "selectedValue", "value": row.data().Proleit_Name });
@@ -184,23 +338,18 @@
 
 
                     });
-
-                   
-                   
                 }
-
-                   
             });
 
-         
+
             //change color of selected row, add remove elements to the list
             $('#Datatable tbody').on('click', 'tr', function () {
 
                 var data = table.row(this).data();
                 var itemFound = false;
-          
+
                 $(this).toggleClass('selected');
-              
+
                 $('#list li').each(function () {
 
                     if ($(this).text() === data.Proleit_Name) {
@@ -211,49 +360,68 @@
                 });
                 if (itemFound == false) {
 
-                    var listitem = 
-                    '<li>'+
-                        '<a class="list-group-item">'   +
-                            data.Proleit_Name   +
-                            '<span class="glyphicon glyphicon-remove-circle pull-right"></span>'    +
-                        '</a>'  +
+                    var listitem =
+                    '<li>' +
+                        '<a class="list-group-item">' +
+                            data.Proleit_Name +
+                            '<span class="glyphicon glyphicon-remove-circle pull-right"></span>' +
+                        '</a>' +
                     '</li>';
                     $("#list").append(listitem);
-                                  
-                }             
-            
+
+                }
+
             });
 
             $("#list").on("click", ".list-group-item", function (event) {
-                removeClassFrom = $(this).text();             
-        
+                removeClassFrom = $(this).text();
+
                 //Search the main datatable and remove the selected class
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) {
                     var data = this.data();
-                   
+
                     if (data.Proleit_Name === removeClassFrom) {
                         $(this.row(rowIdx).node()).toggleClass('selected');
                     }
                 });
-             
+
                 //Remove li object
                 $(this).parent().remove();
 
-               
+
             });
 
             $('#btnInsertDevices').click(function () {
 
-             
-                var table = $('#Datatable').DataTable();
+
+
                 var index = 0;
-                var selectedDevices = new Array();
-                table.rows('.selected').every(function (rowIdx, tableLoop, rowLoop) {
-                    selectedDevices[index] = this.data().Proleit_Name;
+
+                //var selectedDevices = new Array(); //use whats selected in the table
+                var selectedDevicesList = new Array(); //use whats selected in the list
+
+                var selectedStatenKey = $('#slctStates option:selected').val();
+
+                var comment = $('#comment').val();
+                ////loop through the table to figure out whats selected
+                //table.rows('.selected').every(function (rowIdx, tableLoop, rowLoop) {
+                //    selectedDevices[index] = this.data().Proleit_Name;
+                //    index++;
+                //});
+
+                index = 0;
+                //better performance. just looping through the li's
+                $('#list li').each(function (li) {
+                    selectedDevicesList[index] = $(this).text();
                     index++;
                 });
 
-                var postData = { selectedDevices: selectedDevices };
+                var postData =
+                    {
+                        selectedDevicesList: selectedDevicesList,
+                        selectedStatenKey: selectedStatenKey,
+                        comment: comment
+                    };
 
                 $.ajax({
                     url: 'IOLogDataService.asmx/InsertNewRecord',
@@ -262,61 +430,58 @@
                     data: JSON.stringify(postData),
                     dataType: 'json',
                     success: function (data) {
-                        alert(data);
+                        //put all this crap into a proper function
+
+                        //convert response into json
+                        result = jQuery.parseJSON(data.d);
+                        //reload the table
+                        table.ajax.reload(null, false);
+
+                        //loop through the result
+                        $.each(result.insertedDevices, function (index, element) {
+                            alert(element);
+                        });
+
+
 
                     },
                     traditional: true
 
                 });
-                
+
             });
 
 
-            $.ajax({
-                type:'POST',
-                url: 'IOLogDataService.asmx/GetStates',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json", // dataType is json format
-                success: function (data) {
-                    $.each(data.d, function (index, element) {
-                        var state_Name = element.state_Name;
-                        var state_Description = element.state_Description;
-                        var newOption = '<option data-toggle="tooltip" title="' + state_Description + '">' + state_Name + '</option>';
-                        $('#slctStates').append(newOption);
-                        
-                                                   
-                                             
-                    });
-                 
-                }
-            });      
+
+
+
 
         });
 
     </script>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div class="container">
 
-
-            <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
-                    <h4>
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Advance Search
-                        </a>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Advance Search</a>
                     </h4>
                 </div>
-                <div id="collapse1" class="panel-collapse collapse in">
+                <div id="collapse1" class="panel-collapse collapse">
                     <div class="panel-body">
-                        Some body here
+                        <div id="builder"></div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-warning" id="btn-reset">Reset</button>
+                            <button type="button" class="btn btn-primary" id="btn-get-sql">Filter Seach</button>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <div class="container well well-lg">
+        <div class="well well-lg">
 
             <table id="Datatable" class="display nowrap">
                 <thead>
@@ -338,12 +503,12 @@
                 </tbody>
             </table>
         </div>
+
    
-        <div class="container">
             <div id="pnlInsertNewRecord" class="panel-group">
                 <div class="panel panel-default">
-                    <div class="panel-heading"> 
-                     <button data-toggle="collapse" type="button" class="btn btn-primary btn-group-sm" data-target="#collapse">Insert New Records</button>
+                    <div class="panel-heading">
+                        <button data-toggle="collapse" type="button" class="btn btn-primary btn-group-sm" data-target="#collapse">Insert New Records</button>
                     </div>
                     <div class="panel-body collapse" id="collapse">
                         <div class="form-group">
@@ -351,21 +516,19 @@
                                 <div class="row grid-divider">
                                     <div class="col-sm-3">
                                         <div class="col-padding">
-                                            <ul id="list" class="list-group">                                              
-                                            
+                                            <ul id="list" class="list-group">
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="col-padding">
                                             <select id="slctStates" class="form-control">
-                                               
                                             </select>
                                             <label for="comment">Comment:</label>
                                             <textarea class="form-control space10bot" rows="5" id="comment"></textarea>
 
                                             <div class="btn-toolbar">
-                                                <button id="btnInsertDevices" type="button" class="btn btn-primary btn-lg">Insert New Records</button>
+                                                <button id="btnInsertDevices" type="button" class="btn btn-primary btn-sm">Insert New Records</button>
                                             </div>
                                         </div>
                                     </div>
@@ -376,9 +539,12 @@
                         </div>
                     </div>
                 </div>
-            </div> 
-        </div>
+            </div>
+       
 
-    </form>
-</body>
-</html>
+
+
+
+
+
+</asp:Content>

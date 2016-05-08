@@ -7,14 +7,16 @@
     <title></title>
 </head>
 <body>
-    <script src="scripts/jquery-2.2.1.js"></script>
+   
     <link href="Content/bootstrap.css" rel="stylesheet" />
+     <link href="Content/QueryBuilder/query-builder.default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+
+    <script src="scripts/jquery-2.2.1.js"></script>
     <script src="scripts/QueryBuilder/jQuery.extendext.js"></script>
     <script src="scripts/QueryBuilder/doT.js"></script>
-    <script src="scripts/QueryBuilder/query-builder.js"></script>
-    <link href="Content/QueryBuilder/query-builder.default.css" rel="stylesheet" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
-     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="scripts/QueryBuilder/query-builder.js"></script>   
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="scripts/bootstrap.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
